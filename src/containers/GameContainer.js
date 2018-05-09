@@ -135,7 +135,7 @@ class GameContainer extends Component {
           tempState.winningPlayer = this.state.currentPlayer
           this.updatePlayerScore()
           this.setWinningMessage();
-          setTimeout(this.clearBoard, 700)
+          setTimeout(this.clearBoard, 1000)
         }
       })
     })
@@ -143,7 +143,9 @@ class GameContainer extends Component {
 
   render(){
     return (
-      <div  className="game-container">
+      <div className="game-container">
+      <img src="Doge.png"/>
+      <div  className="mid-section">
           <Header message= {this.state.winningMessage}/>
           <ScoreComponents
             player1 = {this.state.player1Score}
@@ -152,6 +154,8 @@ class GameContainer extends Component {
           squares = {this.state.squares}
           handlePress= {this.handleSquarePress}/>
           <ClearBoard handleClick={this.clearBoard}/>
+      </div>
+      <img src="cat_face.jpg"/>
       </div>
     )
   }

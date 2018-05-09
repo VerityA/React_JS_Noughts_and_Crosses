@@ -5,10 +5,15 @@ body {
   background-color: rgb(222, 219, 223);
 }
 
-.game-container {
+.mid-section {
   display: flex;
   flex-direction: column;
   align-items:center;
+}
+
+.game-container {
+  display: flex;
+  justify-content: space-around;
 }
 
 .shape {
@@ -50,4 +55,29 @@ button {
   border-radius: 5px;
   border: none;
   font-size: 20px;
+}
+
+img {
+  width: 400px;
+  height: 400px;
+  margin-top: 10em;
+
+
+	-webkit-animation: rotation 5s infinite linear;
+}
+
+
+@-webkit-keyframes rotation {
+		0% {
+				-webkit-transform: rotate(20deg);
+		}
+		25% {
+				-webkit-transform: rotate(70deg);
+		}
+    50% {
+        -webkit-transform: rotate(-70deg);
+    }
+    100% {
+        -webkit-transform: rotate(20deg);
+    }
 }
