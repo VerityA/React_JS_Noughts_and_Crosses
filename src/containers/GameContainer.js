@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ScoreComponents from '../components/ScoreComponents.js'
 import SquareComponents from '../components/SquareComponents.js'
 import ClearBoard from '../components/ClearBoard.js'
+import Header from '../components/Header.js'
 
 class GameContainer extends Component {
   constructor(props){
@@ -11,6 +12,7 @@ class GameContainer extends Component {
       player1Score: 0,
       player2Score: 0,
       winningPlayer: null,
+      winningMessage: null,
       squares: [
         {id: 1, playedBy: null, imgSrc: "blue_square.png"},
         {id: 2, playedBy: null, imgSrc: "blue_square.png"},
@@ -26,6 +28,7 @@ class GameContainer extends Component {
     this.changePlayer = this.changePlayer.bind(this)
     this.handleSquarePress = this.handleSquarePress.bind(this)
     this.clearBoard = this.clearBoard.bind(this)
+    this.setWinningMessage = this.setWinningMessage.bind(this)
   }
 
   changePlayer() {
@@ -39,6 +42,9 @@ class GameContainer extends Component {
 
   handleSquarePress(event) {
     const tempState = this.state;
+    if (this.hasSquareBeenPlayed(tempState.squares[event.target.value -1])) return
+    // console.log("test");
+
 
     if(this.state.currentPlayer === 1){
       tempState.squares[event.target.value -1].playedBy = 1
@@ -67,11 +73,29 @@ class GameContainer extends Component {
     this.setState(tempState);
   }
 
+  setWinningMessage() {
+    if(this.state.winningPlayer === null) return
+    const tempState = this.state
+
+    if(this.state.winningPlayer === 1) {
+    tempState.winningMessage = "Woohoo, Player 1 wins!"
+    } else {
+    tempState.winningMessage = "Woohoo, Player 2 wins!"
+    }
+
+    this.setState(tempState)
+  }
+
+  hasSquareBeenPlayed(square) {
+      if(square.imgSrc !== "blue_square.png") return true
+  }
+
   clearBoard(){
     const tempState = this.state
 
     tempState.currentPlayer = 1
     tempState.winningPlayer = null
+    tempState.winningMessage = null
     tempState.squares = [
         {id: 1, playedBy: null, imgSrc: "blue_square.png"},
         {id: 2, playedBy: null, imgSrc: "blue_square.png"},
@@ -110,7 +134,8 @@ class GameContainer extends Component {
         if (counter === 3) {
           tempState.winningPlayer = this.state.currentPlayer
           this.updatePlayerScore()
-          setTimeout(this.clearBoard, 200)
+          this.setWinningMessage();
+          setTimeout(this.clearBoard, 700)
         }
       })
     })
@@ -118,15 +143,15 @@ class GameContainer extends Component {
 
   render(){
     return (
-      <div>
-        <ClearBoard handleClick={this.clearBoard}/>
-        <ScoreComponents
-        player1 = {this.state.player1Score}
-        player2 = {this.state.player2Score}
-        />
-        <SquareComponents className="square-box"
-        squares = {this.state.squares}
-        handlePress={this.handleSquarePress}/>
+      <div  className="game-container">
+          <Header message= {this.state.winningMessage}/>
+          <ScoreComponents
+            player1 = {this.state.player1Score}
+            player2 = {this.state.player2Score}/>
+          <SquareComponents className="square-box"
+          squares = {this.state.squares}
+          handlePress= {this.handleSquarePress}/>
+          <ClearBoard handleClick={this.clearBoard}/>
       </div>
     )
   }

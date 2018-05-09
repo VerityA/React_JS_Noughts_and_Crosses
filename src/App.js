@@ -4,7 +4,9 @@ import GameContainer from './containers/GameContainer.js'
 class App extends Component {
   render() {
     return (
-    <GameContainer />
+      <div >
+        <GameContainer/>
+      </div>
     );
   }
 }
